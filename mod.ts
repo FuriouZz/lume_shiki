@@ -7,7 +7,7 @@ import {
 import { getHighlighter, Highlighter, merge, Page, Site } from "./deps.ts";
 import createThemeStyle from "./lib/createThemeStyle.ts";
 
-export type * from "./types.ts";
+export { type Options } from "./types.ts";
 
 export const defaults: Required<CommonOptions> = {
   cssFile: false,
