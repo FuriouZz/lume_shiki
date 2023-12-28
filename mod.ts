@@ -83,10 +83,11 @@ function createPlugin(options: Required<Options>) {
 
       const highlighter = await loadHighlighter();
       const sources = document.querySelectorAll("pre code[class*=language-]");
-      for (const source of sources) {
-        if (!source.textContent) return;
+      for (const sourceCode of sources) {
+        if (!sourceCode.textContent) return;
 
-        const className = source.getAttribute("class")!;
+        const sourcePre = sourceCode.parentElement!;
+        const className = sourceCode.getAttribute("class")!;
         const [, lang] = className.match(/language-(.+)/)!;
 
         // deno-lint-ignore no-explicit-any
@@ -105,14 +106,17 @@ function createPlugin(options: Required<Options>) {
 
         const div = document.createElement("div");
         div.innerHTML = highlighter.codeToHtml(
-          source.textContent,
+          sourceCode.textContent,
           highlighterOptions,
         );
 
-        const pre = div.querySelector("pre")!;
-        const code = div.querySelector("pre > code")!;
-        code.classList.add(`language-${lang}`);
-        source.parentElement?.replaceWith(pre);
+        const resultPre = div.querySelector("pre")!;
+        const resultCode = div.querySelector("pre code")!;
+
+        sourceCode.innerHTML = resultCode.innerHTML;
+        resultPre.getAttributeNames().forEach((name) => {
+          sourcePre.setAttribute(name, resultPre.getAttribute(name)!);
+        });
       }
     };
 
