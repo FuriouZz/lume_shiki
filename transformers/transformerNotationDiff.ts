@@ -31,8 +31,9 @@ export const cssRulesDiff: OnCreateStyleHook = (
 ) => {
   let css = `
 .shiki.has-diff .line.diff {
+  box-sizing: border-box;
   display: inline-block;
-  width: 100%;
+  width: calc(100% + 48px);
   margin: 0 -24px;
   padding: 0 24px;
   transition: background-color .5s;

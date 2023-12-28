@@ -8,8 +8,9 @@ export {
 export const cssRulesFocus: OnCreateStyleHook = () => {
   return `
 .shiki.has-focused .line.focused {
+  box-sizing: border-box;
   display: inline-block;
-  width: 100%;
+  width: calc(100% + 48px);
   margin: 0 -24px;
   padding: 0 24px;
   transition: background-color .5s;
