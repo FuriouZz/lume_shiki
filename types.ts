@@ -41,18 +41,9 @@ export interface CreateThemeStyleOptions {
   useColorScheme?: boolean;
 }
 
-export interface GetStylesOptions {
-  /**
-   * Theme color to style
-   */
-  color: string;
-
-  /**
-   * Prefix of CSS variables used to store the color of the other theme.
-   * @default '--shiki-'
-   */
-  cssVariablePrefix: string;
-}
+export type GetStylesOptions = Required<
+  Pick<CreateThemeStyleOptions, "color" | "cssVariablePrefix">
+>;
 
 export type OnCreateStyleHook = (options: GetStylesOptions) => string;
 
