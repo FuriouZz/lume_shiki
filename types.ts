@@ -36,7 +36,7 @@ export interface CreateThemeStyleOptions {
   themeStyles?: OnCreateStyleHook[];
 
   /**
-   * Use prefers-color-scheme to use dark/light mode
+   * Use dark/light mode
    */
   useColorScheme?: boolean;
 }
@@ -108,8 +108,7 @@ export interface CommonOptions extends Omit<CreateThemeStyleOptions, "color"> {
   highlighter?: BundledHighlighterOptions<BuiltinLanguage, BuiltinTheme>;
 
   /**
-   * Inject extra CSS to <head> tag
-   * @default ".shiki {padding: 24px;border-radius: 0.25em;}"
+   * Inject extra CSS
    */
   extraCSS?: string;
 
