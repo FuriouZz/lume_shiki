@@ -1,0 +1,8 @@
+{
+  "lock": false,
+  "tasks": {
+    "lume": "echo \"import 'https://deno.land/x/lume@v2.0.1/cli.ts'\" | deno run --unstable -A -",
+    "build": "deno task lume",
+    "serve": "deno task lume -s"
+  }
+}
