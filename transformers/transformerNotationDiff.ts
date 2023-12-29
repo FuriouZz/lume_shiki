@@ -37,10 +37,11 @@ export const cssRulesDiff: OnCreateStyleHook = (
   margin: 0 -24px;
   padding: 0 24px;
   transition: background-color .5s;
+  position: relative;
 }
 .shiki.has-diff .line.diff:before {
   position: absolute;
-  left: 10px;
+  left: 5px;
 }
 .shiki.has-diff .line.diff.add {
   background-color: var(${cssVariablePrefix}-diff-add-bg);
