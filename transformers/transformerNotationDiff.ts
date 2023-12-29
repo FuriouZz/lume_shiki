@@ -11,15 +11,15 @@ export {
 
 export const colorsDiff = {
   light: {
-    "diff-add": "#3dd68c",
+    "diff-add": "#18794e",
     "diff-add-bg": "rgba(16, 185, 129, .14)",
-    "diff-remove": "#cb7676",
+    "diff-remove": "#b34e52",
     "diff-remove-bg": "rgba(244, 63, 94, .14)",
   },
   dark: {
-    "diff-add": "#18794e",
+    "diff-add": "#3dd68c",
     "diff-add-bg": "rgba(16, 185, 129, .16)",
-    "diff-remove": "#b34e52",
+    "diff-remove": "#cb7676",
     "diff-remove-bg": "rgba(244, 63, 94, .16)",
   },
 };
