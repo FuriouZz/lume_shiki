@@ -18,7 +18,13 @@ export const defaults: Required<CommonOptions> = {
   border-radius: 0.25em;
   box-sizing: border-box;
   overflow-x: auto;
-}`,
+}
+.shiki code {
+  display: block;
+  min-width: 100%;
+  width: fit-content;
+}
+`,
   highlighter: {},
   transformers: [],
   cssVariablePrefix: "--shiki-",
