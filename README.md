@@ -2,21 +2,25 @@
 
 This plugin uses [shikiji](https://shikiji.netlify.app/) library to search and syntax highlight the code of any `<pre><code>` element.
 
-It exists a [markdown-it plugin](https://shikiji.netlify.app/packages/markdown-it) for Shikiji, but we made the choice to be engine agnostic.
+It exists a [markdown-it plugin](https://shikiji.netlify.app/packages/markdown-it) for Shikiji, but we made the choice to be engine agnostic as [highlight.js plugin](https://lume.land/plugins/code_highlight/) and [prism.js plugin](https://lume.land/plugins/prism/).
 
-Moreover, this plugin adds a couple of advantages for CSS customisation:
+This plugin adds a couple of advantages for CSS customisation:
 * Add extra CSS
-* Generate CSS by theme
-* Generate defaults CSS for [common-transformers](https://shikiji.netlify.app/packages/transformers)
+* Generate CSS variable by theme color
+* Use Dark/Light theme
 * Inject CSS into a `<style>` tag or a `cssFile`
+* Use shikijiExtra() for better CSS defaults
 
 Check the [demo](./demo/_config.ts) directory.
 
 - [Installation](#installation)
-- [Example](#example)
+- [Example with a single theme](#example-with-a-single-theme)
+- [Example with multiple themes](#example-with-multiple-themes)
+- [Example with custom variable](#example-with-custom-variable)
 - [Common Options](#common-options)
 - [Single theme options](#single-theme-options)
 - [Multi themes options](#multi-themes-options)
+- [Use shikijiExtra()](#use-shikijiextra)
 
 ## Installation
 
@@ -33,22 +37,11 @@ site.use(shikiji(/* Options */));
 export default site;
 ```
 
-## Example
+## Example with a single theme
 
 ```ts
 import lume from "https://deno.land/x/lume/mod.ts";
-import shikiji from "https://deno.land/x/furiouzz/lume/plugins/shikiji/mod.ts";
-
-import {
-  cssRulesDiff,
-  cssRulesErrorLevel,
-  cssRulesFocus,
-  cssRulesHighlight,
-  transformerNotationDiff,
-  transformerNotationErrorLevel,
-  transformerNotationFocus,
-  transformerNotationHighlight,
-} from "../transformers/mod.ts";
+import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
 
 const site = lume();
 
@@ -58,27 +51,76 @@ site.use(
       langs: ["javascript"],
       themes: ["github-light"],
     },
-
     theme: "github-light",
-
-    themeStyles: [
-      cssRulesDiff,
-      cssRulesErrorLevel,
-      cssRulesFocus,
-      cssRulesHighlight,
-    ],
-
-    transformers: [
-      transformerNotationDiff(),
-      transformerNotationErrorLevel(),
-      transformerNotationFocus(),
-      transformerNotationHighlight(),
-    ],
   })
 );
 
 export default site;
 ```
+
+## Example with multiple themes
+
+```ts
+import lume from "https://deno.land/x/lume/mod.ts";
+import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
+
+const site = lume();
+
+site.use(
+  shikiji({
+    highlighter: {
+      langs: ["javascript"],
+      themes: ["github-light", "github-dark"],
+    },
+    themes: {
+      light: "github-light",
+      dark: "github-dark",
+    },
+    defaultColor: "light",
+  })
+);
+
+export default site;
+```
+
+## Example with custom variable
+
+```ts
+import lume from "https://deno.land/x/lume/mod.ts";
+import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
+
+const site = lume();
+
+site.use(
+  shikiji({
+    highlighter: {
+      langs: ["javascript"],
+      themes: ["github-light", "github-dark"],
+    },
+    themes: {
+      light: "github-light",
+      dark: "github-dark",
+    },
+    defaultColor: "light",
+    cssThemedVariables: [
+      "border-color",
+    ],
+    extraCSS: `
+:root {
+  --shiki-dark-border-color: #ffaa22;
+  --shiki-light-border-color: #0088ff;
+}
+
+.shiki {
+  border: 5px var(--shiki-border-color) solid;
+}
+`
+  })
+);
+
+export default site;
+```
+
 
 ## Common Options
 
@@ -118,9 +160,10 @@ type CommonOptions = {
   cssVariablePrefix?: string;
 
   /**
-   * Hook to create CSS rules by theme color
+   * Add variables that needs to be themed
+   * You can optionaly give a defaultValue
    */
-  themeStyles?: OnCreateStyleHook[];
+  cssThemedVariables?: (string | [variableSuffix: string, defaultValue: string])[];
 
   /**
    * Use dark/light mode
@@ -160,5 +203,62 @@ type MultiThemeOptions = CommonOptions & {
    * @default false
    */
   defaultColor?: string | false;
+}
+```
+
+## Use shikijiExtra()
+
+This plugin add extra CSS, CSS variables and [shikiji-transformers](https://shikiji.netlify.app/packages/transformers).
+
+```ts
+import lume from "https://deno.land/x/lume/mod.ts";
+import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
+import shikijiExtra from "https://deno.land/x/lume_shikiji/extra/mod.ts";
+
+const site = lume();
+
+site.use(
+  shikiji({
+    highlighter: {
+      langs: ["javascript"],
+      themes: ["github-light"],
+    },
+    theme: "github-light",
+  })
+);
+
+site.use(
+  shikijiExtra({ copyFiles: true })
+);
+
+export default site;
+```
+
+You need to add these files to your layout:
+
+```html
+<link rel="stylesheet" href="styles/shikiji-extra/main.css">
+<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationDiff.css">
+<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationErrorLevel.css">
+<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationFocus.css">
+<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationHighlight.css">
+```
+
+Extra options:
+
+```ts
+type ExtraOptions = {
+  /**
+   * Copy files to destination directory
+   * @default false
+   */
+  copyFiles?: boolean;
+
+  /**
+   * Base directory of CSS files
+   * Must ends with "/"
+   * @default "styles/shikiji/"
+   */
+  baseDir?: string;
 }
 ```

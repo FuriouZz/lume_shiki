@@ -1,0 +1,45 @@
+:root {
+  --shiki-light-diff-add: hsl(153, 67%, 28%);
+  --shiki-light-diff-add-bg: hsla(160, 84%, 39%, 0.14);
+  --shiki-light-diff-remove: hsl(358, 40%, 50%);
+  --shiki-light-diff-remove-bg: hsla(350, 89%, 60%, 0.14);
+
+  --shiki-dark-diff-add: hsl(151, 65%, 54%);
+  --shiki-dark-diff-add-bg: hsla(160, 84%, 39%, 0.16);
+  --shiki-dark-diff-remove: hsl(0, 45%, 63%);
+  --shiki-dark-diff-remove-bg: hsla(350, 89%, 60%, 0.16);
+}
+
+.shiki.has-diff .line.diff {
+  box-sizing: border-box;
+  display: inline-block;
+  width: calc(100% + 48px);
+  margin: 0 -24px;
+  padding: 0 24px;
+  transition: background-color .5s;
+  position: relative;
+}
+
+.shiki.has-diff .line.diff:before {
+  position: absolute;
+  left: 5px;
+}
+
+.shiki.has-diff .line.diff.add {
+  background-color: var(--shiki-diff-add-bg);
+}
+
+.shiki.has-diff .line.diff.add:before {
+  content: "+";
+  color: var(--shiki-diff-add);
+}
+
+.shiki.has-diff .line.diff.remove {
+  background-color: var(--shiki-diff-remove-bg);
+  opacity: 0.7;
+}
+
+.shiki.has-diff .line.diff.remove:before {
+  content: "-";
+  color: var(--shiki-diff-remove);
+}

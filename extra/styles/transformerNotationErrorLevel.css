@@ -1,0 +1,15 @@
+:root {
+  --shiki-light-highlighted-error-bg: hsla(350, 89%, 60%, 0.14);
+  --shiki-light-highlighted-warning-bg: hsla(45, 93%, 47%, 0.14);
+
+  --shiki-dark-highlighted-error-bg: hsla(350, 89%, 60%, 0.16);
+  --shiki-dark-highlighted-warning-bg: hsla(45, 93%, 47%, 0.16);
+}
+
+.shiki.has-highlighted .line.highlighted.warning {
+  background-color: var(--shiki-highlighted-warning-bg);
+}
+
+.shiki.has-highlighted .line.highlighted.error {
+  background-color: var(--shiki-highlighted-error-bg);
+}

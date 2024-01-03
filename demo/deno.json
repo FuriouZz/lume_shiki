@@ -1,7 +1,10 @@
 {
   "lock": false,
+  "imports": {
+    "lume/": "https://deno.land/x/lume@v2.0.2/"
+  },
   "tasks": {
-    "lume": "echo \"import 'https://deno.land/x/lume@v2.0.1/cli.ts'\" | deno run --unstable -A -",
+    "lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -",
     "build": "deno task lume",
     "serve": "deno task lume -s"
   }

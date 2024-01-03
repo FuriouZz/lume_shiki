@@ -1,0 +1,18 @@
+:root {
+  --shiki-light-highlighted-bg: hsla(223, 14%, 61%, 0.14);
+
+  --shiki-dark-highlighted-bg: hsla(210, 14%, 46%, 0.16);
+}
+
+.shiki.has-highlighted .line.highlighted {
+  box-sizing: border-box;
+  display: inline-block;
+  width: calc(100% + 48px);
+  margin: 0 -24px;
+  padding: 0 24px;
+  transition: background-color .5s;
+}
+
+.shiki.has-highlighted .line.highlighted {
+  background-color: var(--shiki-highlighted-bg);
+}

@@ -13,11 +13,7 @@ export type ShikijiThemes<Themes extends string = string> =
   | ThemeRegistrationRaw
   | StringLiteralUnion<Themes>;
 
-export interface OnTransformerCSSRulesOptions {
-  addColors: boolean;
-}
-
-export interface CreateThemeStyleOptions {
+export interface CreateThemedVariablesOptions {
   /**
    * Theme color
    * @default ''
@@ -31,21 +27,16 @@ export interface CreateThemeStyleOptions {
   cssVariablePrefix?: string;
 
   /**
-   * Hook to create CSS rules by theme color
+   * Add variables that needs to be themed
+   * You can optionaly give a defaultValue
    */
-  themeStyles?: OnCreateStyleHook[];
+  cssThemedVariables?: (string | [variableSuffix: string, defaultValue: string])[];
 
   /**
    * Use dark/light mode
    */
   useColorScheme?: boolean;
 }
-
-export type GetStylesOptions = Required<
-  Pick<CreateThemeStyleOptions, "color" | "cssVariablePrefix">
->;
-
-export type OnCreateStyleHook = (options: GetStylesOptions) => string;
 
 export interface SingleThemeOptions<Themes extends string = string> {
   /**
@@ -80,7 +71,7 @@ export type Options<TThemes extends string = string> =
   & CommonOptions
   & ThemeOptions<TThemes>;
 
-export interface CommonOptions extends Omit<CreateThemeStyleOptions, "color"> {
+export interface CommonOptions extends Omit<CreateThemedVariablesOptions, "color"> {
   /**
    * The list of extensions this plugin applies to
    * @default [".html"]
@@ -89,6 +80,7 @@ export interface CommonOptions extends Omit<CreateThemeStyleOptions, "color"> {
 
   /**
    * Set the css filename for all generated styles, Set to false to insert a style tag per page.
+   * Do not forget to import the CSS file in your HTML document
    * @default false
    */
   cssFile?: string | false;
@@ -107,4 +99,19 @@ export interface CommonOptions extends Omit<CreateThemeStyleOptions, "color"> {
    * Transform the generated HAST tree.
    */
   transformers?: ShikijiTransformer[];
+}
+
+export interface ExtraOptions {
+  /**
+   * Copy files to destination directory
+   * @default false
+   */
+  copyFiles?: boolean;
+
+  /**
+   * Base directory of CSS files
+   * Must ends with "/"
+   * @default "styles/shikiji/"
+   */
+  baseDir?: string;
 }
