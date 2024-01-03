@@ -16,15 +16,13 @@ export default function createThemedVariables(
     const defaultColor = color || "light";
     const [variable, defaultValue] = Array.isArray(v) ? v : [v, "inherit"];
     return `${cssVariablePrefix}${variable}: var(${cssVariablePrefix}${defaultColor}-${variable}, ${defaultValue})`;
-  })
+  });
 
   let css = `.shiki {
   ${variables.join(";\n  ")};
 }`;
 
-  if (useColorScheme && MODE_REG.test(color)) {
-    css = `@media (prefers-color-scheme: ${color}) {\n${css}\n}`;
-  } else if (color) {
+  if (color) {
     css = `
 .shiki {
   background-color: var(${cssVariablePrefix}${color}-bg);
@@ -33,7 +31,11 @@ export default function createThemedVariables(
   color: var(${cssVariablePrefix}${color});
 }
 ${css}`;
+  }
 
+  if (useColorScheme && MODE_REG.test(color)) {
+    css = `@media (prefers-color-scheme: ${color}) {\n${css}\n}`;
+  } else if (color) {
     css = css.replaceAll(".shiki", `[data-color=${color}] .shiki`);
   }
 
