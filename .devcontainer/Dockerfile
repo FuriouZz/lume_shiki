@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
 
-ARG DENO_VERSION=1.39.0
+ARG DENO_VERSION=1.39.3
 
 ENV DENO_INSTALL=/deno
 RUN mkdir -p /deno \
