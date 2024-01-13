@@ -1,11 +1,12 @@
-import { merge, Site } from "../deps.ts";
+import { merge } from "lume/core/utils/object.ts";
+import Site from "lume/core/site.ts";
 
 import {
   transformerNotationDiff,
   transformerNotationErrorLevel,
   transformerNotationFocus,
   transformerNotationHighlight,
-} from "npm:shikiji-transformers@0.9.10";
+} from "./deps.ts";
 import { ExtraOptions } from "../types.ts";
 
 export type Options = ExtraOptions;

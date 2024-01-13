@@ -1,17 +1,20 @@
+import { Page } from "lume/core/file.ts";
+import Site from "lume/core/site.ts";
+import { merge } from "lume/core/utils/object.ts";
+
 import {
   CommonOptions,
   MultiThemesOptions,
   Options,
   SingleThemeOptions,
 } from "./types.ts";
+
 import {
   getHighlighter,
   Highlighter,
-  merge,
-  Page,
   ShikijiTransformer,
-  Site,
 } from "./deps.ts";
+
 import createThemedVariables from "./lib/createThemedVariables.ts";
 
 export { type Options } from "./types.ts";
