@@ -2,13 +2,13 @@ import {
   BuiltinLanguage,
   BuiltinTheme,
   BundledHighlighterOptions,
-  ShikijiTransformer,
+  ShikiTransformer,
   StringLiteralUnion,
   ThemeRegistration,
   ThemeRegistrationRaw,
 } from "./deps.ts";
 
-export type ShikijiThemes<Themes extends string = string> =
+export type ShikiThemes<Themes extends string = string> =
   | ThemeRegistration
   | ThemeRegistrationRaw
   | StringLiteralUnion<Themes>;
@@ -43,7 +43,7 @@ export interface SingleThemeOptions<Themes extends string = string> {
    * Single theme used
    * @default 'vitesse-light'
    */
-  theme: ShikijiThemes<Themes>;
+  theme: ShikiThemes<Themes>;
 }
 
 export interface MultiThemesOptions<Themes extends string = string> {
@@ -51,9 +51,9 @@ export interface MultiThemesOptions<Themes extends string = string> {
    * A map of color names to themes.
    * This allows you to specify multiple themes for the generated code.
    *
-   * @see https://github.com/antfu/shikiji#lightdark-dual-themes
+   * @see https://shiki.style/guide/dual-themes
    */
-  themes: Record<string, ShikijiThemes<Themes>>;
+  themes: Record<string, ShikiThemes<Themes>>;
 
   /**
    * Add [data-color] attribute to body element
@@ -98,7 +98,7 @@ export interface CommonOptions extends Omit<CreateThemedVariablesOptions, "color
   /**
    * Transform the generated HAST tree.
    */
-  transformers?: ShikijiTransformer[];
+  transformers?: ShikiTransformer[];
 }
 
 export interface ExtraOptions {
@@ -111,7 +111,7 @@ export interface ExtraOptions {
   /**
    * Base directory of CSS files
    * Must ends with "/"
-   * @default "styles/shikiji/"
+   * @default "styles/shiki/"
    */
   baseDir?: string;
 }

@@ -3,4 +3,4 @@ export {
   transformerNotationErrorLevel,
   transformerNotationFocus,
   transformerNotationHighlight,
-} from "npm:shikiji-transformers@0.9.19";
+} from "npm:@shikijs/transformers@1.1.7";

@@ -1,13 +1,13 @@
 import lume from "lume/mod.ts";
 
-import shikiji from "../mod.ts";
-import shikijiExtra from "../extra/mod.ts";
+import shiki from "../mod.ts";
+import shikiExtra from "../extra/mod.ts";
 
 const site = lume();
 
 if (Deno.env.has("SINGLE")) {
   site.use(
-    shikiji({
+    shiki({
       highlighter: {
         langs: ["javascript"],
         themes: ["github-light"],
@@ -17,7 +17,7 @@ if (Deno.env.has("SINGLE")) {
   );
 } else {
   site.use(
-    shikiji({
+    shiki({
       highlighter: {
         langs: ["javascript"],
         themes: ["github-dark", "github-light"],
@@ -44,6 +44,6 @@ if (Deno.env.has("SINGLE")) {
   );
 }
 
-site.use(shikijiExtra({ copyFiles: true }));
+site.use(shikiExtra({ copyFiles: true }));
 
 export default site;

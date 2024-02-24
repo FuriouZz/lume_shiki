@@ -13,10 +13,10 @@ export type Options = ExtraOptions;
 
 export const defaults: Required<ExtraOptions> = {
   copyFiles: false,
-  baseDir: "styles/shikiji-extra/",
+  baseDir: "styles/shiki-extra/",
 };
 
-export default function shikijiExtra(userOptions?: ExtraOptions) {
+export default function shikiExtra(userOptions?: ExtraOptions) {
   const options = merge(defaults, userOptions);
 
   if (!options.baseDir.endsWith("/")) {
@@ -43,14 +43,14 @@ export default function shikijiExtra(userOptions?: ExtraOptions) {
       site.copy(defaults.baseDir);
     }
 
-    site.hooks.addShikijiTransformers([
+    site.hooks.addShikiTransformers([
       transformerNotationDiff(),
       transformerNotationErrorLevel(),
       transformerNotationFocus(),
       transformerNotationHighlight(),
     ]);
 
-    site.hooks.addShikijiCSSThemedVariables([
+    site.hooks.addShikiCSSThemedVariables([
       "diff-add",
       "diff-add-bg",
       "diff-remove",
