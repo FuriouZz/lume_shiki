@@ -1,0 +1,18 @@
+.shiki .tab,
+.shiki .space {
+  position: relative;
+}
+
+.shiki .tab:before,
+.shiki .space:before {
+  position: absolute;
+  opacity: .3;
+}
+
+.shiki .space:before {
+  content: "·";
+}
+
+.shiki .tab:before {
+  content: "⇥";
+}

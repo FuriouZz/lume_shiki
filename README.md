@@ -1,15 +1,15 @@
-# Shikiji plugin for [Lume](https://lume.land/) <!-- omit in toc -->
+# Shiki plugin for [Lume](https://lume.land/) <!-- omit in toc -->
 
-This plugin uses [shikiji](https://shikiji.netlify.app/) library to search and syntax highlight the code of any `<pre><code>` element.
+This plugin uses [shiki](https://shiki.style/) library to search and syntax highlight the code of any `<pre><code>` element.
 
-It exists a [markdown-it plugin](https://shikiji.netlify.app/packages/markdown-it) for Shikiji, but we made the choice to be engine agnostic as [highlight.js plugin](https://lume.land/plugins/code_highlight/) and [prism.js plugin](https://lume.land/plugins/prism/).
+It exists a [markdown-it plugin](https://shiki.style/packages/markdown-it) for Shiki, but we made the choice to be engine agnostic as [highlight.js plugin](https://lume.land/plugins/code_highlight/) and [prism.js plugin](https://lume.land/plugins/prism/).
 
 This plugin adds a couple of advantages for CSS customisation:
 * Add extra CSS
 * Generate CSS variable by theme color
 * Use Dark/Light theme
 * Inject CSS into a `<style>` tag or a `cssFile`
-* Use shikijiExtra() for better CSS defaults
+* Use shikiExtra() for better CSS defaults
 
 Check the [demo](./demo/_config.ts) directory.
 
@@ -20,7 +20,7 @@ Check the [demo](./demo/_config.ts) directory.
 - [Common Options](#common-options)
 - [Single theme options](#single-theme-options)
 - [Multi themes options](#multi-themes-options)
-- [Use shikijiExtra()](#use-shikijiextra)
+- [Use shikiExtra()](#use-shikiextra)
 
 ## Installation
 
@@ -28,11 +28,11 @@ Import this plugin in your `_config.ts` file to use it:
 
 ```ts
 import lume from "https://deno.land/x/lume/mod.ts";
-import shikiji from "https://deno.land/x/furiouzz/lume/plugins/shikiji/mod.ts";
+import shiki from "https://deno.land/x/lume_shiki/mod.ts";
 
 const site = lume();
 
-site.use(shikiji(/* Options */));
+site.use(shiki(/* Options */));
 
 export default site;
 ```
@@ -41,12 +41,12 @@ export default site;
 
 ```ts
 import lume from "https://deno.land/x/lume/mod.ts";
-import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
+import shiki from "https://deno.land/x/lume_shiki/mod.ts";
 
 const site = lume();
 
 site.use(
-  shikiji({
+  shiki({
     highlighter: {
       langs: ["javascript"],
       themes: ["github-light"],
@@ -62,12 +62,12 @@ export default site;
 
 ```ts
 import lume from "https://deno.land/x/lume/mod.ts";
-import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
+import shikijfrom "https://deno.land/x/lume_shiki/mod.ts";
 
 const site = lume();
 
 site.use(
-  shikiji({
+  shiki({
     highlighter: {
       langs: ["javascript"],
       themes: ["github-light", "github-dark"],
@@ -87,12 +87,12 @@ export default site;
 
 ```ts
 import lume from "https://deno.land/x/lume/mod.ts";
-import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
+import shiki from "https://deno.land/x/lume_shiki/mod.ts";
 
 const site = lume();
 
 site.use(
-  shikiji({
+  shiki({
     highlighter: {
       langs: ["javascript"],
       themes: ["github-light", "github-dark"],
@@ -151,7 +151,7 @@ type CommonOptions = {
   /**
    * Transform the generated HAST tree.
    */
-  transformers?: ShikijiTransformer[];
+  transformers?: ShikiTransformer[];
 
   /**
    * Prefix of CSS variables used to store the color of the other theme.
@@ -180,7 +180,7 @@ type SingleThemeOptions = CommonOptions & {
    * Single theme used
    * @default 'vitesse-light'
    */
-  theme: ShikijiThemes<Themes>;
+  theme: ShikiThemes<Themes>;
 }
 ```
 
@@ -192,13 +192,13 @@ type MultiThemeOptions = CommonOptions & {
    * A map of color names to themes.
    * This allows you to specify multiple themes for the generated code.
    *
-   * @see https://github.com/antfu/shikiji#lightdark-dual-themes
+   * @see https://github.com/antfu/shiki#lightdark-dual-themes
    */
-  themes?: Record<string, ShikijiThemes<Themes>>;
+  themes?: Record<string, ShikiThemes<Themes>>;
 
   /**
    * Add [data-color] attribute to body element
-   * It does not work like shikiji implementation
+   * It does not work like shiki implementation
    *
    * @default false
    */
@@ -206,19 +206,19 @@ type MultiThemeOptions = CommonOptions & {
 }
 ```
 
-## Use shikijiExtra()
+## Use shikiExtra()
 
-This plugin add extra CSS, CSS variables and [shikiji-transformers](https://shikiji.netlify.app/packages/transformers).
+This plugin add extra CSS, CSS variables and [shiki-transformers](https://shiki.style/packages/transformers).
 
 ```ts
 import lume from "https://deno.land/x/lume/mod.ts";
-import shikiji from "https://deno.land/x/lume_shikiji/mod.ts";
-import shikijiExtra from "https://deno.land/x/lume_shikiji/extra/mod.ts";
+import shiki from "https://deno.land/x/lume_shiki/mod.ts";
+import shikiExtra from "https://deno.land/x/lume_shiki/extra/mod.ts";
 
 const site = lume();
 
 site.use(
-  shikiji({
+  shiki({
     highlighter: {
       langs: ["javascript"],
       themes: ["github-light"],
@@ -228,7 +228,7 @@ site.use(
 );
 
 site.use(
-  shikijiExtra({ copyFiles: true })
+  shikiExtra({ copyFiles: true })
 );
 
 export default site;
@@ -237,11 +237,11 @@ export default site;
 You need to add these files to your layout:
 
 ```html
-<link rel="stylesheet" href="styles/shikiji-extra/main.css">
-<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationDiff.css">
-<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationErrorLevel.css">
-<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationFocus.css">
-<link rel="stylesheet" href="styles/shikiji-extra/transformerNotationHighlight.css">
+<link rel="stylesheet" href="styles/shiki-extra/main.css">
+<link rel="stylesheet" href="styles/shiki-extra/transformerNotationDiff.css">
+<link rel="stylesheet" href="styles/shiki-extra/transformerNotationErrorLevel.css">
+<link rel="stylesheet" href="styles/shiki-extra/transformerNotationFocus.css">
+<link rel="stylesheet" href="styles/shiki-extra/transformerNotationHighlight.css">
 ```
 
 Extra options:
@@ -257,7 +257,7 @@ type ExtraOptions = {
   /**
    * Base directory of CSS files
    * Must ends with "/"
-   * @default "styles/shikiji/"
+   * @default "styles/shiki/"
    */
   baseDir?: string;
 }

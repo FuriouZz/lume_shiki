@@ -12,7 +12,8 @@ import {
 import {
   getHighlighter,
   Highlighter,
-  ShikijiTransformer,
+  ShikiTransformer,
+  bundledLanguages
 } from "./deps.ts";
 
 import createThemedVariables from "./lib/createThemedVariables.ts";
@@ -23,7 +24,10 @@ export const defaults: Required<CommonOptions> = {
   cssFile: false,
   extensions: [".html"],
   extraCSS: "",
-  highlighter: {},
+  highlighter: {
+    themes: ["vitesse-light"],
+    langs: Object.keys(bundledLanguages)
+  },
   transformers: [],
   cssVariablePrefix: "--shiki-",
   cssThemedVariables: [],
@@ -35,6 +39,7 @@ export const singleThemeDefaults: Required<CommonOptions & SingleThemeOptions> =
     ...defaults,
     highlighter: {
       themes: ["vitesse-light"],
+      langs: Object.keys(bundledLanguages)
     },
     theme: "vitesse-light",
   };
@@ -44,6 +49,7 @@ export const multiThemeDefaults: Required<CommonOptions & MultiThemesOptions> =
     ...defaults,
     highlighter: {
       themes: ["vitesse-light", "vitesse-dark"],
+      langs: Object.keys(bundledLanguages)
     },
     themes: {
       light: "vitesse-light",
@@ -160,8 +166,8 @@ function createPlugin(options: Required<Options>) {
     /**
      * Hook for adding extra transformers
      */
-    site.hooks.addShikijiTransformers = (
-      transformers: ShikijiTransformer[],
+    site.hooks.addShikiTransformers = (
+      transformers: ShikiTransformer[],
     ) => {
       options.transformers.push(...transformers);
     };
@@ -169,7 +175,7 @@ function createPlugin(options: Required<Options>) {
     /**
      * Hook for adding extra css themed variables
      */
-    site.hooks.addShikijiCSSThemedVariables = (
+    site.hooks.addShikiCSSThemedVariables = (
       variables: Required<CommonOptions>["cssThemedVariables"],
     ) => {
       options.cssThemedVariables.push(...variables);
@@ -190,9 +196,9 @@ function createPlugin(options: Required<Options>) {
 }
 
 /**
- * Code highlight plugin using [shikiji](https://shikiji.netlify.app/)
+ * Code highlight plugin using [shiki](https://shiki.style/)
  */
-export default function shikiji<Themes extends string = string>(
+export default function shiki<Themes extends string = string>(
   options: Options<Themes>,
 ) {
   if ("themes" in options) {
