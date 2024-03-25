@@ -5,9 +5,9 @@ import { insertToHead } from "../../lib/utils.ts";
 export interface Options {
   /**
    * Label position
-   * @default "top-right"
+   * @default "top"
    */
-  position: "top" | "bottom";
+  position?: "top" | "bottom";
 
   /**
    * Icon order position
@@ -17,7 +17,7 @@ export interface Options {
   /**
    * Content of the <button>
    */
-  content?: (document: Document) => Node;
+  content?: (document: Document) => Node | string | (Node | string)[];
 
   /**
    * Override script from copy.js
@@ -76,7 +76,7 @@ export default function shikiCopy(userOptions?: Options) {
           const btn = document.createElement("button");
           btn.setAttribute("style", `order: ${order}`);
           btn.setAttribute("class", "copy");
-          btn.append(content(document));
+          btn.append(...[content(document)].flat());
           container.append(btn);
         }
 

@@ -7,10 +7,13 @@ import shikiAttribute from "../attribute/mod.ts";
 export interface Options {
   /**
    * Label position
-   * @default "top-right"
+   * @default "top"
    */
-  position: "top" | "bottom";
+  position?: "top" | "bottom";
 
+  /**
+   * Set lang order position
+   */
   order?: number;
 }
 
@@ -25,7 +28,7 @@ export default function shikiLang(userOptions?: Options) {
   return shikiAttribute({
     ...options,
     attribute: "lang",
-    getValue(el) {
+    getDefaultValue(el) {
       const className = el.getAttribute("class");
       const match = className?.match(/language-(.+)/);
       if (!match) return;

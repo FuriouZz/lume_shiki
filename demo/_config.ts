@@ -68,17 +68,16 @@ site
   .use(
     attribute({
       attribute: "label",
-      // format: (value, d) => {
-      //   const b = d.createElement("b");
-      //   b.textContent = "Filename:";
+      format: (value, d) => {
+        const b = d.createElement("b");
+        b.textContent = "title:";
 
-      //   const span = d.createElement("span");
-      //   span.setAttribute("style", "display: inline-block; padding-left: 2px;")
-      //   span.textContent = value;
-      //   b.append(span);
+        const span = d.createElement("span");
+        span.setAttribute("style", "display: inline-block; padding-left: 2px;")
+        span.textContent = value;
 
-      //   return b;
-      // },
+        return [b, span];
+      },
     })
   )
   .use(lang())

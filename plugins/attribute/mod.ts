@@ -11,7 +11,7 @@ export interface Options {
   /**
    * Label format
    */
-  format?: (value: string, document: Document) => Node;
+  format?: (value: string, document: Document) => Node | string | (Node | string)[];
 
   /**
    * Label position
@@ -19,8 +19,14 @@ export interface Options {
    */
   position?: "top" | "bottom";
 
-  getValue?: (el: Element, document: Document) => string | undefined;
+  /**
+   * Get default attribute value when not specified
+   */
+  getDefaultValue?: (el: Element, document: Document) => string | undefined;
 
+  /**
+   * attribre order position
+   */
   order?: number;
 }
 
@@ -29,11 +35,11 @@ export const defaults: Required<Options> = {
   format: (v, document) => document.createTextNode(v),
   position: "top",
   order: 2,
-  getValue: () => undefined,
+  getDefaultValue: () => undefined,
 };
 
 export default function shikiAttribute(userOptions?: Options) {
-  const { attribute, format, position, order, getValue } = merge(
+  const { attribute, format, position, order, getDefaultValue } = merge(
     defaults,
     userOptions
   );
@@ -56,7 +62,7 @@ export default function shikiAttribute(userOptions?: Options) {
 
           const value =
             sourceCode.getAttribute(attribute) ||
-            getValue(sourceCode, document);
+            getDefaultValue(sourceCode, document);
           if (!value) continue;
 
           sourceCode.removeAttribute(attribute);
@@ -64,7 +70,7 @@ export default function shikiAttribute(userOptions?: Options) {
           const el = document.createElement("div");
           el.setAttribute("style", `order: ${order}`);
           el.setAttribute("class", `attribute-${attribute}`);
-          el.append(format(value, document))
+          el.append(...[format(value, document)].flat())
 
           container.append(el);
         }
