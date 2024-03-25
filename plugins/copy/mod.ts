@@ -8,27 +8,52 @@ export interface Options {
    */
   position: "top" | "bottom";
 
+  /**
+   * Icon order position
+   */
   order?: number;
 
   /**
    * Content of the <button>
    */
   content?: (document: Document) => Node;
+
+  /**
+   * Override script from copy.js
+   */
+  scriptPath?: string;
+
+  /**
+   * Base directory of CSS files
+   * Must ends with "/"
+   * @default "/scripts/shiki/"
+   */
+  baseDir?: string;
 }
 
 export const defaults: Required<Options> = {
   position: "top",
   order: 3,
   content: (document) => document.createTextNode(""),
+  scriptPath: import.meta.resolve("./main.js"),
+  baseDir: "/scripts/shiki/",
 };
 
 export default function shikiCopy(userOptions?: Options) {
-  const { position, order, content } = merge(defaults, userOptions);
+  const { position, order, content, scriptPath, ...options } = merge(defaults, userOptions);
   const containerSelector = position.includes("top") ? "header" : "footer";
 
+  if (!options.baseDir.startsWith("/")) {
+    options.baseDir = `/${options.baseDir}`;
+  }
+
+  if (!options.baseDir.endsWith("/")) {
+    options.baseDir = `${options.baseDir}/`;
+  }
+
   return (site: Site) => {
-    const path = "/shiki/copy.js";
-    site.remoteFile(path, import.meta.resolve("./main.js"));
+    const path = `${options.baseDir}copy.js`;
+    site.remoteFile(path, scriptPath);
     site.copy(path);
 
     site.process([".html"], (pages) => {

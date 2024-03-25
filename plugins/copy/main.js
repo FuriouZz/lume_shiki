@@ -18,6 +18,10 @@ globalThis.addEventListener("click", (e) => {
     }
 
     navigator.clipboard.writeText(str.join("\n"));
+
+    target.classList.add("copied");
+    setTimeout(() => {
+      target.classList.remove("copied");
+    }, 2000);
   }
 });
-

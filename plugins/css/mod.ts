@@ -11,6 +11,9 @@ const files = [
 ] as const;
 
 export type Options = {
+  /**
+   * CSS files to include
+   */
   includes?: Partial<Record<(typeof files)[number], boolean>>;
 
   /**
@@ -23,11 +26,15 @@ export type Options = {
 
 export const defaults: Required<Options> = {
   includes: Object.fromEntries(files.map((v) => [v, true])) as Required<Options>['includes'],
-  baseDir: "styles/shiki/",
+  baseDir: "/styles/shiki/",
 };
 
 export default function shikiCSS(userOptions?: Options) {
   const options = merge(defaults, userOptions);
+
+  if (!options.baseDir.startsWith("/")) {
+    options.baseDir = `/${options.baseDir}`;
+  }
 
   if (!options.baseDir.endsWith("/")) {
     options.baseDir = `${options.baseDir}/`;
@@ -37,7 +44,7 @@ export default function shikiCSS(userOptions?: Options) {
     const files = Object.entries(options.includes)
       .filter(([, enabled]) => enabled)
       .map(([file]) => {
-        const path = `/${defaults.baseDir}${file}.css`;
+        const path = `${defaults.baseDir}${file}.css`;
         site.remoteFile(path, import.meta.resolve(`./styles/${file}.css`));
         site.copy(path);
         return path;
