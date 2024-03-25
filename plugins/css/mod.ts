@@ -37,7 +37,7 @@ export default function shikiCSS(userOptions?: Options) {
     const files = Object.entries(options.includes)
       .filter(([, enabled]) => enabled)
       .map(([file]) => {
-        const path = `${defaults.baseDir}${file}.css`;
+        const path = `/${defaults.baseDir}${file}.css`;
         site.remoteFile(path, import.meta.resolve(`./styles/${file}.css`));
         site.copy(path);
         return path;

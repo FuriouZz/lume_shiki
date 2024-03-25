@@ -27,7 +27,7 @@ export default function shikiCopy(userOptions?: Options) {
   const containerSelector = position.includes("top") ? "header" : "footer";
 
   return (site: Site) => {
-    const path = "shiki/copy.js";
+    const path = "/shiki/copy.js";
     site.remoteFile(path, import.meta.resolve("./main.js"));
     site.copy(path);
 
