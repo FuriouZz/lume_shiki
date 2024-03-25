@@ -1,0 +1,6 @@
+[tools]
+deno = "1.41.3"
+
+[tasks.demo]
+dir = "./demo"
+run = "deno task serve"
