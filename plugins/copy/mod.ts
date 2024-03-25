@@ -1,5 +1,6 @@
 import type Site from "lume/core/site.ts";
 import { merge } from "lume/core/utils/object.ts";
+import { insertToHead } from "../../lib/utils.ts";
 
 export interface Options {
   /**
@@ -40,7 +41,10 @@ export const defaults: Required<Options> = {
 };
 
 export default function shikiCopy(userOptions?: Options) {
-  const { position, order, content, scriptPath, ...options } = merge(defaults, userOptions);
+  const { position, order, content, scriptPath, ...options } = merge(
+    defaults,
+    userOptions
+  );
   const containerSelector = position.includes("top") ? "header" : "footer";
 
   if (!options.baseDir.startsWith("/")) {
@@ -78,7 +82,7 @@ export default function shikiCopy(userOptions?: Options) {
 
         const script = document.createElement("script");
         script.setAttribute("src", path);
-        document.head.append(script);
+        insertToHead(document, script);
       }
     });
   };

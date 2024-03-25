@@ -1,5 +1,6 @@
 import type Site from "lume/core/site.ts";
 import { merge } from "lume/core/utils/object.ts";
+import { insertToHead } from "../../lib/utils.ts";
 
 const files = [
   "main",
@@ -25,7 +26,9 @@ export type Options = {
 };
 
 export const defaults: Required<Options> = {
-  includes: Object.fromEntries(files.map((v) => [v, true])) as Required<Options>['includes'],
+  includes: Object.fromEntries(
+    files.map((v) => [v, true])
+  ) as Required<Options>["includes"],
   baseDir: "/styles/shiki/",
 };
 
@@ -62,10 +65,11 @@ export default function shikiCSS(userOptions?: Options) {
 
     site.process([".html"], (pages) => {
       for (const page of pages) {
-        const style = page.document?.createElement("style");
-        if (!style) continue;
+        const { document } = page;
+        if (!document) continue;
+        const style = document.createElement("style");
         style.textContent = files.map((v) => `@import "${v}";`).join("\n");
-        page.document?.head.append(style);
+        insertToHead(document, style);
       }
     });
   };
