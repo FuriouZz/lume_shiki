@@ -3,9 +3,9 @@ globalThis.addEventListener("click", (e) => {
 
   if (
     target instanceof HTMLButtonElement &&
-    target.matches("pre > button.copy")
+    target.matches(".code-block button.copy")
   ) {
-    const parent = target.parentElement;
+    const parent = target.parentElement?.parentElement;
     const codeBlock = parent?.querySelector("code[class*=language-]");
     const lines = codeBlock?.querySelectorAll(".line");
     if (!lines) return;

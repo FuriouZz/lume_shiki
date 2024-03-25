@@ -1,6 +1,5 @@
 import type Site from "lume/core/site.ts";
 import { merge } from "lume/core/utils/object.ts";
-import { fromFileUrl } from "lume/deps/path.ts";
 
 export interface Options {
   /**
@@ -28,8 +27,9 @@ export default function shikiCopy(userOptions?: Options) {
   const containerSelector = position.includes("top") ? "header" : "footer";
 
   return (site: Site) => {
-    const path = import.meta.resolve("./main.js");
-    const scriptContent = Deno.readTextFileSync(fromFileUrl(path));
+    const path = "shiki/copy.js";
+    site.remoteFile(path, import.meta.resolve("./main.js"));
+    site.copy(path);
 
     site.process([".html"], (pages) => {
       for (const page of pages) {
@@ -40,7 +40,8 @@ export default function shikiCopy(userOptions?: Options) {
 
         for (const sourceCode of sources) {
           const sourcePre = sourceCode.parentElement;
-          const container = sourcePre?.parentElement?.querySelector(containerSelector);
+          const container =
+            sourcePre?.parentElement?.querySelector(containerSelector);
           if (!sourcePre || !container) return;
 
           const btn = document.createElement("button");
@@ -51,7 +52,7 @@ export default function shikiCopy(userOptions?: Options) {
         }
 
         const script = document.createElement("script");
-        script.textContent = scriptContent;
+        script.setAttribute("src", path);
         document.head.append(script);
       }
     });
