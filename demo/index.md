@@ -4,16 +4,17 @@ layout: layout.vto
 
 ## Highlight
 
-```javascript
+```javascript{label=demo.js lang=js}
 const greeting = "Hello";
 const who = "World";
 const msg = `${greeting} ${who}!`; // [!code highlight]
 console.log(msg);
+const longString = "abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789";
 ```
 
 ## Range highlight
 
-```javascript
+```javascript{label=demo.js}
 const greeting = "Hello";
 const who = "World"; // [!code highlight:2]
 const msg = `${greeting} ${who}!`;
@@ -22,7 +23,7 @@ console.log(msg);
 
 ## Diff
 
-```javascript
+```javascript{label=demo.js}
 const greeting = "Hello";
 const who = "World"; // [!code --]
 const who = "John"; // [!code ++]
@@ -32,7 +33,7 @@ console.log(msg);
 
 ## Focus
 
-```javascript
+```javascript{label=demo.js}
 const greeting = "Hello";
 const who = "World";
 const who = "John";
@@ -42,7 +43,7 @@ console.log(msg);
 
 ## Warning and Error
 
-```javascript
+```javascript{label=demo.js}
 const msg = "Hello World";
 console.warn(msg); // [!code warning]
 console.error(msg); // [!code error]
@@ -50,7 +51,7 @@ console.error(msg); // [!code error]
 
 ## Whitespace
 
-```javascript
+```javascript{label=demo.js}
 const msg = "Hello World";
   console.warn(msg);
 	console.error(msg);

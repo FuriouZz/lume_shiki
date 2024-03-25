@@ -1,4 +1,4 @@
-import {
+import type {
   BuiltinLanguage,
   BuiltinTheme,
   BundledHighlighterOptions,
@@ -99,19 +99,4 @@ export interface CommonOptions extends Omit<CreateThemedVariablesOptions, "color
    * Transform the generated HAST tree.
    */
   transformers?: ShikiTransformer[];
-}
-
-export interface ExtraOptions {
-  /**
-   * Copy files to destination directory
-   * @default false
-   */
-  copyFiles?: boolean;
-
-  /**
-   * Base directory of CSS files
-   * Must ends with "/"
-   * @default "styles/shiki/"
-   */
-  baseDir?: string;
 }

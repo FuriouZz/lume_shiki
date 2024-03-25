@@ -1,0 +1,28 @@
+.shiki {
+  padding: 24px;
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.shiki code {
+  display: block;
+  min-width: 100%;
+  width: fit-content;
+}
+
+.code-block header,
+.code-block footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.code-block header:has(*:nth-child(2)),
+.code-block footer:has(*:nth-child(2)) {
+  justify-content: space-between;
+}
+
+.code-block button.copy:before {
+  content: "Copy";
+}

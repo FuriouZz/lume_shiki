@@ -1,8 +1,8 @@
-import { Page } from "lume/core/file.ts";
-import Site from "lume/core/site.ts";
+import type { Page } from "lume/core/file.ts";
+import type Site from "lume/core/site.ts";
 import { merge } from "lume/core/utils/object.ts";
 
-import {
+import type {
   CommonOptions,
   MultiThemesOptions,
   Options,
@@ -10,10 +10,10 @@ import {
 } from "./types.ts";
 
 import {
+  bundledLanguages,
   getHighlighter,
-  Highlighter,
-  ShikiTransformer,
-  bundledLanguages
+  type Highlighter,
+  type ShikiTransformer,
 } from "./deps.ts";
 
 import createThemedVariables from "./lib/createThemedVariables.ts";
@@ -26,7 +26,7 @@ export const defaults: Required<CommonOptions> = {
   extraCSS: "",
   highlighter: {
     themes: ["vitesse-light"],
-    langs: Object.keys(bundledLanguages)
+    langs: Object.keys(bundledLanguages),
   },
   transformers: [],
   cssVariablePrefix: "--shiki-",
@@ -39,7 +39,7 @@ export const singleThemeDefaults: Required<CommonOptions & SingleThemeOptions> =
     ...defaults,
     highlighter: {
       themes: ["vitesse-light"],
-      langs: Object.keys(bundledLanguages)
+      langs: Object.keys(bundledLanguages),
     },
     theme: "vitesse-light",
   };
@@ -49,7 +49,7 @@ export const multiThemeDefaults: Required<CommonOptions & MultiThemesOptions> =
     ...defaults,
     highlighter: {
       themes: ["vitesse-light", "vitesse-dark"],
-      langs: Object.keys(bundledLanguages)
+      langs: Object.keys(bundledLanguages),
     },
     themes: {
       light: "vitesse-light",
@@ -65,7 +65,10 @@ function createPlugin(options: Required<Options>) {
   let highlighter: Highlighter | undefined = undefined;
   const loadHighlighter = () => {
     if (highlighter) return highlighter;
-    return getHighlighter(options.highlighter).then((h) => highlighter = h);
+    return getHighlighter(options.highlighter).then((h) => {
+      highlighter = h;
+      return h;
+    });
   };
 
   /**
@@ -86,11 +89,16 @@ function createPlugin(options: Required<Options>) {
     for (const sourceCode of sources) {
       if (!sourceCode.textContent) return;
 
-      const sourcePre = sourceCode.parentElement!;
-      const className = sourceCode.getAttribute("class")!;
-      const [, lang] = className.match(/language-(.+)/)!;
+      const sourcePre = sourceCode.parentElement;
+      const className = sourceCode.getAttribute("class");
+      if (!className || !sourcePre) return;
 
-      // deno-lint-ignore no-explicit-any
+      const match = className.match(/language-(.+)/);
+      if (!match) return;
+
+      const [, lang] = match;
+
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const highlighterOptions: any = {
         cssVariablePrefix: options.cssVariablePrefix,
         transformers: options.transformers,
@@ -107,16 +115,27 @@ function createPlugin(options: Required<Options>) {
       const div = document.createElement("div");
       div.innerHTML = highlighter.codeToHtml(
         sourceCode.textContent,
-        highlighterOptions,
+        highlighterOptions
       );
 
-      const resultPre = div.querySelector("pre")!;
-      const resultCode = div.querySelector("pre code")!;
+      const resultPre = div.querySelector("pre");
+      const resultCode = div.querySelector("pre code");
 
-      sourceCode.innerHTML = resultCode.innerHTML;
-      resultPre.getAttributeNames().forEach((name) => {
-        sourcePre.setAttribute(name, resultPre.getAttribute(name)!);
-      });
+      if (resultCode && resultPre) {
+        sourceCode.innerHTML = resultCode.innerHTML;
+
+        for (const name of resultPre.getAttributeNames()) {
+          sourcePre.setAttribute(name, resultPre.getAttribute(name) ?? "");
+        }
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.setAttribute("class", "code-block")
+      sourcePre.replaceWith(wrapper);
+      wrapper.append(sourcePre);
+
+      wrapper.prepend(document.createElement("header"));
+      wrapper.append(document.createElement("footer"));
     }
   };
 
@@ -132,9 +151,9 @@ function createPlugin(options: Required<Options>) {
     if ("theme" in options) {
       extraCSS += createThemedVariables({ ...options, color: undefined });
     } else if ("themes" in options) {
-      Object.keys(options.themes).forEach((color) => {
+      for (const color of Object.keys(options.themes)) {
         extraCSS += createThemedVariables({ ...options, color });
-      });
+      }
     }
 
     if (options.cssFile) {
@@ -166,9 +185,7 @@ function createPlugin(options: Required<Options>) {
     /**
      * Hook for adding extra transformers
      */
-    site.hooks.addShikiTransformers = (
-      transformers: ShikiTransformer[],
-    ) => {
+    site.hooks.addShikiTransformers = (transformers: ShikiTransformer[]) => {
       options.transformers.push(...transformers);
     };
 
@@ -176,7 +193,7 @@ function createPlugin(options: Required<Options>) {
      * Hook for adding extra css themed variables
      */
     site.hooks.addShikiCSSThemedVariables = (
-      variables: Required<CommonOptions>["cssThemedVariables"],
+      variables: Required<CommonOptions>["cssThemedVariables"]
     ) => {
       options.cssThemedVariables.push(...variables);
     };
@@ -199,7 +216,7 @@ function createPlugin(options: Required<Options>) {
  * Code highlight plugin using [shiki](https://shiki.style/)
  */
 export default function shiki<Themes extends string = string>(
-  options: Options<Themes>,
+  options: Options<Themes>
 ) {
   if ("themes" in options) {
     return createPlugin(merge(multiThemeDefaults, options));

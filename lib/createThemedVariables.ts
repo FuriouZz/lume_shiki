@@ -1,4 +1,4 @@
-import { CreateThemedVariablesOptions } from "../types.ts";
+import type { CreateThemedVariablesOptions } from "../types.ts";
 
 const MODE_REG = /^dark|light$/;
 

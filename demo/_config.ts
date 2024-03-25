@@ -1,7 +1,11 @@
 import lume from "lume/mod.ts";
 
 import shiki from "../mod.ts";
-import shikiExtra from "../extra/mod.ts";
+
+import attribute from "../plugins/attribute/mod.ts";
+import copy from "../plugins/copy/mod.ts";
+import css from "../plugins/css/mod.ts";
+import lang from "../plugins/lang/mod.ts";
 
 import {
   transformerNotationDiff,
@@ -50,16 +54,34 @@ if (Deno.env.has("SINGLE")) {
   );
 }
 
-site.use((site) => {
-  site.hooks.addShikiTransformers([
-    transformerNotationDiff(),
-    transformerNotationErrorLevel(),
-    transformerNotationFocus(),
-    transformerNotationHighlight(),
-    transformerRenderWhitespace(),
-  ]);
-});
+site
+  .use((site) => {
+    site.hooks.addShikiTransformers([
+      transformerNotationDiff(),
+      transformerNotationErrorLevel(),
+      transformerNotationFocus(),
+      transformerNotationHighlight(),
+      transformerRenderWhitespace(),
+    ]);
+  })
+  .use(css())
+  .use(
+    attribute({
+      attribute: "label",
+      // format: (value, d) => {
+      //   const b = d.createElement("b");
+      //   b.textContent = "Filename:";
 
-site.use(shikiExtra({ copyFiles: true }));
+      //   const span = d.createElement("span");
+      //   span.setAttribute("style", "display: inline-block; padding-left: 2px;")
+      //   span.textContent = value;
+      //   b.append(span);
+
+      //   return b;
+      // },
+    })
+  )
+  .use(lang())
+  .use(copy());
 
 export default site;
