@@ -1,1 +1,1 @@
-export * from "npm:shiki@1.1.7";
+export * from "npm:shiki@1.13.0";

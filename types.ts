@@ -30,7 +30,10 @@ export interface CreateThemedVariablesOptions {
    * Add variables that needs to be themed
    * You can optionaly give a defaultValue
    */
-  cssThemedVariables?: (string | [variableSuffix: string, defaultValue: string])[];
+  cssThemedVariables?: (
+    | string
+    | [variableSuffix: string, defaultValue: string]
+  )[];
 
   /**
    * Use dark/light mode
@@ -67,11 +70,11 @@ export type ThemeOptions<Themes extends string = string> =
   | SingleThemeOptions<Themes>
   | MultiThemesOptions<Themes>;
 
-export type Options<TThemes extends string = string> =
-  & CommonOptions
-  & ThemeOptions<TThemes>;
+export type Options<TThemes extends string = string> = CommonOptions &
+  ThemeOptions<TThemes>;
 
-export interface CommonOptions extends Omit<CreateThemedVariablesOptions, "color"> {
+export interface CommonOptions
+  extends Omit<CreateThemedVariablesOptions, "color"> {
   /**
    * The list of extensions this plugin applies to
    * @default [".html"]
