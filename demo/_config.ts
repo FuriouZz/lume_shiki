@@ -13,7 +13,7 @@ import {
   transformerNotationFocus,
   transformerNotationHighlight,
   transformerRenderWhitespace,
-} from "npm:@shikijs/transformers@1.1.7";
+} from "npm:@shikijs/transformers@3.4.1";
 
 const site = lume();
 

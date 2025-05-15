@@ -1,6 +1,6 @@
 {
   "lock": false,
   "imports": {
-    "lume/": "https://deno.land/x/lume@v2.0.3/"
+    "lume/": "https://deno.land/x/lume@v3.0.1/"
   }
 }

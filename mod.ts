@@ -1,5 +1,6 @@
 import type { Page } from "lume/core/file.ts";
 import type Site from "lume/core/site.ts";
+import type { Plugin } from "lume/core/site.ts";
 import { merge } from "lume/core/utils/object.ts";
 
 import type {
@@ -18,7 +19,7 @@ import {
 
 import createThemedVariables from "./lib/createThemedVariables.ts";
 
-export { type Options } from "./types.ts";
+export type { Options } from "./types.ts";
 
 export const defaults: Required<CommonOptions> = {
 	cssFile: false,
@@ -58,7 +59,7 @@ export const multiThemeDefaults: Required<CommonOptions & MultiThemesOptions> =
 		defaultColor: false,
 	};
 
-function createPlugin(options: Required<Options>) {
+function createPlugin(options: Required<Options>): Plugin {
 	/**
 	 * Load highlighter only once
 	 */
@@ -98,8 +99,7 @@ function createPlugin(options: Required<Options>) {
 
 			const [, lang] = match;
 
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			const highlighterOptions: any = {
+			const highlighterOptions: unknown = {
 				cssVariablePrefix: options.cssVariablePrefix,
 				transformers: options.transformers,
 				lang,
@@ -107,15 +107,15 @@ function createPlugin(options: Required<Options>) {
 			};
 
 			if ("theme" in options) {
-				highlighterOptions.theme = options.theme;
+				(highlighterOptions as { theme: unknown }).theme = options.theme;
 			} else if ("themes" in options) {
-				highlighterOptions.themes = options.themes;
+				(highlighterOptions as { themes: unknown }).themes = options.themes;
 			}
 
 			const div = document.createElement("div");
 			div.innerHTML = highlighter.codeToHtml(
 				sourceCode.textContent,
-				highlighterOptions,
+				highlighterOptions as unknown as CodeToHastOptions,
 			);
 
 			const resultPre = div.querySelector("pre");

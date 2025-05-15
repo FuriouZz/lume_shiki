@@ -1,7 +1,7 @@
 {
   "lock": false,
   "imports": {
-    "lume/": "https://deno.land/x/lume@v2.0.2/"
+    "lume/": "https://deno.land/x/lume@v3.0.1/"
   },
   "tasks": {
     "lume": "echo \"import 'lume/cli.ts'\" | deno run --node-modules-dir -A -",

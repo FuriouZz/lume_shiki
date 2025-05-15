@@ -61,10 +61,7 @@ export default function shikiCopy(userOptions?: Options) {
     site.copy(path);
 
     site.process([".html"], (pages) => {
-      for (const page of pages) {
-        const document = page.document;
-        if (!document) continue;
-
+      for (const { document } of pages) {
         const sources = document.querySelectorAll("pre code[class*=language-]");
 
         for (const sourceCode of sources) {

@@ -1,5 +1,5 @@
 [tools]
-deno = "1.41.3"
+deno = "latest"
 
 [tasks.demo]
 dir = "./demo"
