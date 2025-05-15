@@ -27,7 +27,7 @@ export type Options = {
 
 export const defaults: Required<Options> = {
   includes: Object.fromEntries(
-    files.map((v) => [v, true])
+    files.map((v) => [v, true]),
   ) as Required<Options>["includes"],
   baseDir: "/styles/shiki/",
 };

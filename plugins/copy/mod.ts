@@ -43,7 +43,7 @@ export const defaults: Required<Options> = {
 export default function shikiCopy(userOptions?: Options) {
   const { position, order, content, scriptPath, ...options } = merge(
     defaults,
-    userOptions
+    userOptions,
   );
   const containerSelector = position.includes("top") ? "header" : "footer";
 
@@ -66,8 +66,9 @@ export default function shikiCopy(userOptions?: Options) {
 
         for (const sourceCode of sources) {
           const sourcePre = sourceCode.parentElement;
-          const container =
-            sourcePre?.parentElement?.querySelector(containerSelector);
+          const container = sourcePre?.parentElement?.querySelector(
+            containerSelector,
+          );
           if (!sourcePre || !container) return;
 
           const btn = document.createElement("button");

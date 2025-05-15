@@ -1,15 +1,20 @@
 # Shiki plugin for [Lume](https://lume.land/) <!-- omit in toc -->
 
-This plugin uses [shiki](https://shiki.style/) library to search and syntax highlight the code of any `<pre><code>` element.
+This plugin uses [shiki](https://shiki.style/) library to search and syntax
+highlight the code of any `<pre><code>` element.
 
-It exists a [markdown-it plugin](https://shiki.style/packages/markdown-it) for Shiki, but we made the choice to be engine agnostic as [highlight.js plugin](https://lume.land/plugins/code_highlight/) and [prism.js plugin](https://lume.land/plugins/prism/).
+It exists a [markdown-it plugin](https://shiki.style/packages/markdown-it) for
+Shiki, but we made the choice to be engine agnostic as
+[highlight.js plugin](https://lume.land/plugins/code_highlight/) and
+[prism.js plugin](https://lume.land/plugins/prism/).
 
 Features:
-* CSS customization
-* Add extra CSS
-* Generate CSS variable by theme color
-* Use Dark/Light theme
-* Plugins like copy to clipboard, language label and title label
+
+- CSS customization
+- Add extra CSS
+- Generate CSS variable by theme color
+- Use Dark/Light theme
+- Plugins like copy to clipboard, language label and title label
 
 Check the [demo](./demo/_config.ts) directory.
 
@@ -63,7 +68,7 @@ site.use(
       themes: ["github-light"],
     },
     theme: "github-light",
-  })
+  }),
 );
 
 export default site;
@@ -125,13 +130,12 @@ site.use(
 .shiki {
   border: 5px var(--shiki-border-color) solid;
 }
-`
-  })
+`,
+  }),
 );
 
 export default site;
 ```
-
 
 ## Common Options
 
@@ -147,7 +151,7 @@ type CommonOptions = {
    * Set the css filename for all generated styles, Set to false to insert a style tag per page.
    * @default false
    */
-  cssFile?: string | false
+  cssFile?: string | false;
 
   /**
    * Highlighter options to configure theme and languages to load
@@ -174,13 +178,14 @@ type CommonOptions = {
    * Add variables that needs to be themed
    * You can optionaly give a defaultValue
    */
-  cssThemedVariables?: (string | [variableSuffix: string, defaultValue: string])[];
+  cssThemedVariables?:
+    (string | [variableSuffix: string, defaultValue: string])[];
 
   /**
    * Use dark/light mode
    */
   useColorScheme?: boolean;
-}
+};
 ```
 
 ## Single theme options
@@ -192,7 +197,7 @@ type SingleThemeOptions = CommonOptions & {
    * @default 'vitesse-light'
    */
   theme: ShikiThemes<Themes>;
-}
+};
 ```
 
 ## Multi themes options
@@ -214,7 +219,7 @@ type MultiThemeOptions = CommonOptions & {
    * @default false
    */
   defaultColor?: string | false;
-}
+};
 ```
 
 ## Plugins
@@ -237,7 +242,7 @@ site.use(
       themes: ["github-light"],
     },
     theme: "github-light",
-  })
+  }),
 );
 
 site.use(shikiCopy());
@@ -308,11 +313,11 @@ site.use(
       themes: ["github-light"],
     },
     theme: "github-light",
-  })
+  }),
 );
 
 site.use(shikiAttribute({
-  attribute: "filename"
+  attribute: "filename",
 }));
 
 export default site;
@@ -321,9 +326,7 @@ export default site;
 Example:
 
 ```md
-\`\`\`js{filename=main.js}
-const msg = "Hello World";
-\`\`\`
+\`\`\`js{filename=main.js} const msg = "Hello World"; \`\`\`
 ```
 
 #### Options
@@ -379,7 +382,7 @@ site.use(
       themes: ["github-light"],
     },
     theme: "github-light",
-  })
+  }),
 );
 
 site.use(shikiLang());
@@ -406,7 +409,8 @@ interface Options {
 
 ### shikiCSS
 
-This plugin adds extra CSS, CSS variables for [shiki-transformers](https://shiki.style/packages/transformers).
+This plugin adds extra CSS, CSS variables for
+[shiki-transformers](https://shiki.style/packages/transformers).
 
 #### Usage
 
@@ -424,7 +428,7 @@ site.use(
       themes: ["github-light"],
     },
     theme: "github-light",
-  })
+  }),
 );
 
 site.use(shikiCSS());

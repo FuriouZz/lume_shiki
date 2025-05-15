@@ -36,12 +36,12 @@ export default function shikiLang(userOptions?: Options) {
       const [, lang] = match;
 
       const info = bundledLanguagesInfo.find(
-        (v) => v.id === lang || v.aliases?.includes(lang)
+        (v) => v.id === lang || v.aliases?.includes(lang),
       );
       if (!info) return;
 
       const names = [info.id, ...(info?.aliases ?? [])].sort(
-        (a, b) => a.length - b.length
+        (a, b) => a.length - b.length,
       );
 
       return names[0];

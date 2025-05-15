@@ -11,7 +11,10 @@ export interface Options {
   /**
    * Label format
    */
-  format?: (value: string, document: Document) => Node | string | (Node | string)[];
+  format?: (
+    value: string,
+    document: Document,
+  ) => Node | string | (Node | string)[];
 
   /**
    * Label position
@@ -41,7 +44,7 @@ export const defaults: Required<Options> = {
 export default function shikiAttribute(userOptions?: Options) {
   const { attribute, format, position, order, getDefaultValue } = merge(
     defaults,
-    userOptions
+    userOptions,
   );
   const containerSelector = position.includes("top") ? "header" : "footer";
 
@@ -56,12 +59,12 @@ export default function shikiAttribute(userOptions?: Options) {
         for (const sourceCode of sources) {
           const sourcePre = sourceCode.parentElement;
           const className = sourceCode.getAttribute("class");
-          const container =
-            sourcePre?.parentElement?.querySelector(containerSelector);
+          const container = sourcePre?.parentElement?.querySelector(
+            containerSelector,
+          );
           if (!className || !sourcePre || !container) return;
 
-          const value =
-            sourceCode.getAttribute(attribute) ||
+          const value = sourceCode.getAttribute(attribute) ||
             getDefaultValue(sourceCode, document);
           if (!value) continue;
 
@@ -70,7 +73,7 @@ export default function shikiAttribute(userOptions?: Options) {
           const el = document.createElement("div");
           el.setAttribute("style", `order: ${order}`);
           el.setAttribute("class", `attribute-${attribute}`);
-          el.append(...[format(value, document)].flat())
+          el.append(...[format(value, document)].flat());
 
           container.append(el);
         }

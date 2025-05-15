@@ -70,8 +70,9 @@ export type ThemeOptions<Themes extends string = string> =
   | SingleThemeOptions<Themes>
   | MultiThemesOptions<Themes>;
 
-export type Options<TThemes extends string = string> = CommonOptions &
-  ThemeOptions<TThemes>;
+export type Options<TThemes extends string = string> =
+  & CommonOptions
+  & ThemeOptions<TThemes>;
 
 export interface CommonOptions
   extends Omit<CreateThemedVariablesOptions, "color"> {

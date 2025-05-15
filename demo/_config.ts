@@ -25,7 +25,7 @@ if (Deno.env.has("SINGLE")) {
         themes: ["github-light"],
       },
       theme: "github-light",
-    })
+    }),
   );
 } else {
   site.use(
@@ -50,7 +50,7 @@ if (Deno.env.has("SINGLE")) {
   border: 5px var(--shiki-border-color) solid;
 }
 `,
-    })
+    }),
   );
 }
 
@@ -73,12 +73,12 @@ site
         b.textContent = "title:";
 
         const span = d.createElement("span");
-        span.setAttribute("style", "display: inline-block; padding-left: 2px;")
+        span.setAttribute("style", "display: inline-block; padding-left: 2px;");
         span.textContent = value;
 
         return [b, span];
       },
-    })
+    }),
   )
   .use(lang())
   .use(copy());

@@ -6,7 +6,7 @@
 .shiki .tab:before,
 .shiki .space:before {
   position: absolute;
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .shiki .space:before {
