@@ -60,17 +60,18 @@ export const multiThemeDefaults: Required<CommonOptions & MultiThemesOptions> =
     defaultColor: false,
   };
 
+// Singleton
+let shikiPromise: Promise<Highlighter> | null = null;
+
 function createPlugin(options: Required<Options>): Plugin {
   /**
-   * Load highlighter only once
+   * Create/Load highlighter only once
    */
-  let highlighter: Highlighter | undefined = undefined;
   const loadHighlighter = () => {
-    if (highlighter) return highlighter;
-    return createHighlighter(options.highlighter).then((h) => {
-      highlighter = h;
-      return h;
-    });
+    if (!shikiPromise) {
+      shikiPromise = createHighlighter(options.highlighter);
+    }
+    return shikiPromise;
   };
 
   /**
@@ -89,14 +90,14 @@ function createPlugin(options: Required<Options>): Plugin {
     const highlighter = await loadHighlighter();
     const sources = document.querySelectorAll("pre code[class*=language-]");
     for (const sourceCode of sources) {
-      if (!sourceCode.textContent) return;
+      if (!sourceCode.textContent) continue;
 
       const sourcePre = sourceCode.parentElement;
       const className = sourceCode.getAttribute("class");
-      if (!className || !sourcePre) return;
+      if (!className || !sourcePre) continue;
 
       const match = className.match(/language-(.+)/);
-      if (!match) return;
+      if (!match) continue;
 
       const [, lang] = match;
 
