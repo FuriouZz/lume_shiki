@@ -20,6 +20,8 @@ export interface CreateThemedVariablesOptions {
    */
   color?: string;
 
+  colorAttribute?: string;
+
   /**
    * Prefix of CSS variables used to store the color of the other theme.
    * @default '--shiki-'

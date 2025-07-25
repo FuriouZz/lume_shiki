@@ -7,6 +7,7 @@ export default function createThemedVariables(
 ) {
   const {
     color = "",
+    colorAttribute = "data-color",
     cssVariablePrefix = "--shiki-",
     cssThemedVariables = [],
     useColorScheme = false,
@@ -36,7 +37,7 @@ ${css}`;
   if (useColorScheme && MODE_REG.test(color)) {
     css = `@media (prefers-color-scheme: ${color}) {\n${css}\n}`;
   } else if (color) {
-    css = css.replaceAll(".shiki", `[data-color=${color}] .shiki`);
+    css = css.replaceAll(".shiki", `[${colorAttribute}=${color}] .shiki`);
   }
 
   return css;

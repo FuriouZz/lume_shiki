@@ -34,6 +34,7 @@ export const defaults: Required<CommonOptions> = {
   cssVariablePrefix: "--shiki-",
   cssThemedVariables: [],
   useColorScheme: false,
+  colorAttribute: "data-color"
 };
 
 export const singleThemeDefaults: Required<CommonOptions & SingleThemeOptions> =
@@ -179,7 +180,7 @@ function createPlugin(options: Required<Options>): Plugin {
   const setDefaultColor = (page: Page) => {
     if ("defaultColor" in options && options.defaultColor) {
       const body = page.document?.querySelector("body");
-      body?.setAttribute("data-color", options.defaultColor);
+      body?.setAttribute(options.colorAttribute, options.defaultColor);
     }
   };
 
